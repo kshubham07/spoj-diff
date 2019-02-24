@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>Python Flask Bucket List App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="{{ url_for('static', filename='js/jquery.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/mscript.js')}}"></script>
+</head>
+ 
+<body>
+ 
+    <div class="container">
+        <div class="header">
+            <h3 class="text-muted">SPOJ Diff</h3>
+        </div>
+ 
+        <div class="jumbotron">
+            <h1>Enter usernames to see diff</h1>
+            <form class="form-signin">
+                <label for="inputUserName" class="sr-only">Your username</label>
+                <input type="name" name="inputUserName" id="inputUserName" class="form-control" placeholder="Your username" required autofocus>
+                <label for="inputFriendName" class="sr-only">Friend's username</label>
+                <input type="name" name="inputFriendName" id="inputFriendName" class="form-control" placeholder="Friend's username" required autofocus>
+                <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="button">Diff!</button>
+          </form>
+        </div>
+
+        <div>
+            <div id="content"></div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; kshubham07@2019</p>
+        </footer>
+ 
+    </div>
+</body>
+ 
+</html>
