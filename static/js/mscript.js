@@ -6,48 +6,42 @@ $(document).ready(function() {
         var len = pattern.length;
         for(var i=0;i<len;i++){
             if(pattern[i]!=txt[i]){
-                console.log(txt+" violated at "+i);
                 return 0;
             }
         }
-        console.log(txt+" MATCHES!");
         return 1;
     }
 
     get_list = function(response){
-        response = response.substring(1,response.length-1);
-        //console.log(response);
-        plist = response.split(',');
-        //console.log(plist.length);
-        qlist = []
-        for(var j=0;j<plist.length; j++){
-            var txt = plist[j];
-            txt = txt.substring(1+(j!=0),txt.length-1);    
-            qlist.push(txt);
-        }
-        return qlist;
+        jsonList = JSON.parse(response);
+        return jsonList;
     }
 
     filter_list = function(pattern){
-        console.log("filter list");
         rlist = [];
-        for(var j=0;j<questions_list.length; j++){
-            var txt = questions_list[j];
+        listkeys = Object.keys(questions_list)
+        console.log(listkeys.length);
+        for(var j=0;j<listkeys.length; j++){
+            var txt = listkeys[j];
             if(matches(pattern.toUpperCase(),txt.toUpperCase()))
-                rlist.push(txt);
+                rlist[txt] = questions_list[txt];
         }
-        console.log("filter list returning "+rlist);
         return rlist;
     }
 
     build_html = function(plist){
         var ipr = 6;
-        mhtml= '<table class="table table-striped table-bordered table-hover">';
-        for(var i=0;i<plist.length;i+=ipr){
+        plistkeys = Object.keys(plist)
+        mhtml = '<p>Number of questions remaining : '+ plistkeys.length +'</p>';
+        mhtml+= '<table class="table table-striped table-bordered table-hover">';
+        for(var i=0;i<plistkeys.length;i+=ipr){
             mhtml += '<tr>';
-            for(var j=0;i+j<plist.length && j<ipr; j++){
-                var txt = plist[i+j];
-                mhtml+='<td><a href="https://www.spoj.com/problems/'+ txt +'" target="_blank">'+ txt +'</a></td>';
+            for(var j=0;i+j<plistkeys.length && j<ipr; j++){
+                var txt = plistkeys[i+j];
+                if(plist[txt]==0)
+                    mhtml+='<td><a href="https://www.spoj.com/problems/'+ txt +'" target="_blank">'+ txt +'</a></td>';
+                else
+                    mhtml+='<td><a href="https://www.spoj.com/problems/'+ txt +'" class="text-danger" target="_blank">'+txt+'</a></td>';
             }
             mhtml += '</tr>';
         }
@@ -63,7 +57,7 @@ $(document).ready(function() {
             type: 'POST',
             success: function(response) {
                 console.log(response);
-                if(response=="['-1']"){
+                if(response=="{\"-1\": 1}"){
                     $('#content').html("Bad id. Please check id.");
                 }
                 else{
